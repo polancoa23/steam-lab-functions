@@ -1,0 +1,203 @@
+//orange:1350
+//green:1615
+//max height:485
+//min height:1790
+//claw open:1300
+//claw closed:700 w/ orange
+//claw closed:750 w/ green
+//vertical: higher in val, the lower it goes
+//claw: higher in val, the more it opens up
+#include <kipr/wombat.h>
+//VARIABLES
+int closedOrange = 430;
+int closedGreen = 430;
+int opened=1300;
+int speed=30;
+int lilSpeed=15;
+int max = 485;
+int orangeVert = 1320;
+int greenVert = 1600;
+int lmotor = 0;
+int rmotor = 3;
+int side = 4;
+int vertical = 0;
+int claw = 1;
+int clawSideSens = 0;
+int clawFrontSens = 0;
+int frontSens = 5;
+int line = 2500;
+int gWall = 500;
+int lineL = 3800;
+int sideLight = 5;
+//FUNCTIONS
+void claw_down_orange();
+void claw_down_green();
+void claw_up_max();
+void claw_up_orange();
+void close_claw_orange();
+void close_claw_green();
+void open_claw();
+void back();
+void left_turn();
+void right_turn();
+void quickf();
+void quickb();
+void quickd();
+void place();
+void forward();
+void pivot_left_turn();
+void pivot_right_turn();
+
+int main(){
+    //wait for light();
+    //shut_down_in(120.0);
+	enable_servos();
+    msleep(1000);
+    claw_up_max();
+    msleep(1000);
+    forward();
+    msleep(5000);
+	//ao();
+	return 0;
+}
+void claw_down_orange(){
+	int i = get_servo_position(0); // get vert pos
+  	while(i < orangeVert){
+    		set_servo_position(0,i);
+    		printf("going down\n");
+    		msleep(20);
+	    	i+=5;
+  	}
+	printf("finally at orange\n");
+}
+void claw_down_green(){
+	int i = get_servo_position(0);
+  	while(i < greenVert){
+    		set_servo_position(0,i);
+    		printf("going down\n");
+    		msleep(20);
+    		i+=5;
+  	}
+  	printf("finally at green\n");
+}
+void claw_up_max(){
+  	int i = get_servo_position(0);
+  	while(i>max){
+    		set_servo_position(0,i);
+    		printf("going up\n");
+    		msleep(20);
+    		i-=5;
+  	}
+  	printf("finally at max\n");
+}
+void claw_up_orange(){
+	int i = get_servo_position(0);
+	while(i>orangeVert){
+    		set_servo_position(0,i);
+    		msleep(20);
+    		printf("going up\n");
+    		i-=5;
+  	}
+  	printf("finally at orange\n");
+}
+void close_claw_orange(){
+	int i = get_servo_position(1);
+  	while(i > closedOrange){
+		set_servo_position(1,i);
+        	printf("closing\n");
+    		msleep(20);
+    		i-=5;
+  	}
+  	printf("finally closed on orange\n");
+}
+void close_claw_green(){
+	int i = get_servo_position(1);
+	while(i > closedGreen){
+		set_servo_position(1,i);
+		printf("closing\n");
+		msleep(20);
+		i-=5;
+	}
+	printf("finally closed on green\n");
+}
+void open_claw(){
+	int i = get_servo_position(1);
+	while(i < opened){
+		set_servo_position(1,i);
+    		printf("opening\n");
+    		msleep(20);
+    		i+=5;
+  	}
+	printf("finally opened\n");
+}
+void back(){
+	motor(lmotor,-speed);
+  	motor(rmotor,-speed);
+	printf("moving backwards\n");
+}
+void forward(){
+	motor(lmotor,speed);
+	motor(rmotor,speed);
+	printf("moving forwards\n");
+}
+void left_turn(){
+	motor(lmotor,-speed);
+	motor(rmotor,speed);
+	printf("turning left\n");
+}
+void pivot_left_turn(){
+	motor(lmotor,0);
+	motor(rmotor,speed);
+	printf("turning left\n");
+}
+void right_turn(){
+	motor(lmotor,speed);
+	motor(rmotor,-speed);
+	printf("turning right\n");
+}
+void pivot_right_turn(){
+	motor(lmotor,speed);
+	motor(rmotor,0);
+	printf("turning right\n");
+}
+void quickf(){
+	motor(lmotor,lilSpeed);
+	motor(rmotor,lilSpeed);
+	msleep(250);
+	printf("moving forward a bit\n");
+	//ao();
+}
+void quickb(){
+	motor(lmotor,-lilSpeed);
+	motor(rmotor,-lilSpeed);
+	msleep(250);
+	printf("moving backward a bit\n");
+	//ao();
+}
+void quickd(){
+	set_servo_position(0,get_servo_position(0)+30);
+	msleep(20);
+	printf("going down a bit\n");
+}
+void place(){
+	int i = 0;
+	while(i<15){
+		quickf();
+    		msleep(50);
+    		ao();
+    		msleep(50);
+    		printf("forward a bit\n");
+    		quickd();
+    		msleep(50);
+    		printf("down a bit\n");
+    		quickb();
+    		msleep(50);
+    		printf("backward a bit\n");
+    		ao();
+    		msleep(50);
+    		quickd();
+    		msleep(50);
+    		printf("down a bit\n");
+    		i++;
+  	}
+}

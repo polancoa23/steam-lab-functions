@@ -12,7 +12,7 @@
 int closedOrange = 430;
 int closedGreen = 430;
 int opened=1300;
-int speed=30;
+int speed=45;
 int lilSpeed=15;
 int max = 485;
 int orangeVert = 1320;
@@ -25,10 +25,13 @@ int claw = 1;
 int clawSideSens = 0;
 int clawFrontSens = 0;
 int frontSens = 5;
-int line = 2500;
+int pole = 2500;
 int gWall = 500;
 int lineL = 3800;
 int sideLight = 5;
+int tooClose = #;
+int tooFar = #;
+int midLight = #;
 //FUNCTIONS
 void claw_down_orange();
 void claw_down_green();
@@ -47,6 +50,8 @@ void place();
 void forward();
 void pivot_left_turn();
 void pivot_right_turn();
+void adjustL();
+void adjustR();
 
 int main(){
     //wait for light();
@@ -200,4 +205,24 @@ void place(){
     		printf("down a bit\n");
     		i++;
   	}
+}
+void adjustL(){
+	int i = 0;
+	while(i<10){
+		pivot_left_turn();
+		msleep(350);
+		pivot_right_turn();
+		msleep(300);
+		i++;
+	}
+}
+void adjustR(){
+	int i = 0;
+	while(i<10){
+		pivot_right_turn();
+		msleep(350);
+		pivot_left_turn();
+		msleep(300);
+		i++;
+	}
 }
